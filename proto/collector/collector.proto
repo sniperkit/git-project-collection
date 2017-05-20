@@ -13,16 +13,16 @@ message Empty {
 }
 
 message Repositories {
-  repeated Repository repos = 1;
+  required repeated Repository repos = 1;
 }
 
 message Repository {
-  int32 id = 1;
-  string name = 2;
-  string url = 3;
-  string html = 4;
-  string desc = 5;
-  int32 star_count = 6;
-  string git = 7;
-  string clone = 8;
+  required int32 id = 1;
+  required string name = 2;
+  required string url = 3;
+  optional string html = 4;
+  required string desc = 5;
+  required int32 star_count = 6;
+  optional string git = 7;
+  required string clone = 8;
 }
