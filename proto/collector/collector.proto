@@ -12,17 +12,17 @@ message Empty {
 
 }
 
+message Repositories {
+  repeated Repository repos = 1;
+}
+
 message Repository {
-  int64 id = 1;
+  int32 id = 1;
   string name = 2;
   string url = 3;
   string html = 4;
   string desc = 5;
-  string star_count = 6;
+  int32 star_count = 6;
   string git = 7;
   string clone = 8;
-}
-
-message Repositories {
-  repeated Repository repositories = 1;
 }
