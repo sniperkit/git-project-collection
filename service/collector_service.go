@@ -20,7 +20,7 @@ import (
 
 	context "context"
 
-	collector "github.com/leewind/git-project-collection/proto/collector"
+	collector "github.com/leewind/git-project-collection/api/collector"
 	netContext "golang.org/x/net/context"
 
 	"golang.org/x/oauth2"

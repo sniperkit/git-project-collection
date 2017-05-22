@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	pb "github.com/leewind/git-project-collection/proto/collector"
+	pb "github.com/leewind/git-project-collection/api/collector"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 )
