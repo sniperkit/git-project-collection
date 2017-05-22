@@ -20,8 +20,8 @@ func main() {
 	}
 	server := grpc.NewServer()
 
-	service := new(CollectorService.Service)
-	service.Register(server)
+	// 将服务注册到server上
+	CollectorService.NewService(server)
 
 	reflection.Register(server)
 	if err := server.Serve(lis); err != nil {

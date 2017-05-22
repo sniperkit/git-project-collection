@@ -1,3 +1,15 @@
+/*
+Package service implement the interface of collector.proto
+for github starred repositories information
+
+		createClient
+
+		Service
+			client
+
+			NewService
+			GetStarredRepositories
+*/
 package service
 
 import (
@@ -14,29 +26,32 @@ import (
 	"golang.org/x/oauth2"
 )
 
-type Service struct {
+// CollectorService service对象主体
+type CollectorService struct {
 	client *github.Client
 }
 
-func (service *Service) Register(server *grpc.Server) {
+func createClient() *github.Client {
+	ctx := context.Background()
+	ts := oauth2.StaticTokenSource(
+		&oauth2.Token{AccessToken: "xxxxxx_your_token_xxxxxx"},
+	)
+	tc := oauth2.NewClient(ctx, ts)
+
+	client := github.NewClient(tc)
+	return client
+}
+
+// NewService 初始化Service，将service注册到server上
+func NewService(server *grpc.Server) *CollectorService {
+	client := createClient()
+	service := &CollectorService{client}
 	collector.RegisterCollectorServer(server, service)
+	return service
 }
 
-func (service *Service) ResetClient() {
-	if service.client == nil {
-		ctx := context.Background()
-		ts := oauth2.StaticTokenSource(
-			&oauth2.Token{AccessToken: "xxxxxx_your_token_xxxxxx"},
-		)
-		tc := oauth2.NewClient(ctx, ts)
-
-		service.client = github.NewClient(tc)
-	}
-}
-
-func (service *Service) GetStarredRepositories(ctx netContext.Context, in *collector.Empty) (*collector.Repositories, error) {
-	service.ResetClient()
-
+// GetStarredRepositories 复写proto代码中的接口，获取所有收藏Repositories列表
+func (service *CollectorService) GetStarredRepositories(ctx netContext.Context, in *collector.Empty) (*collector.Repositories, error) {
 	option := &github.ActivityListStarredOptions{
 		ListOptions: github.ListOptions{PerPage: 30},
 	}
